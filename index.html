@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>THƯ MỜI CƯỚI</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Birthstone&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind font config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        script: ['"Beau Rivage"', 'cursive'],
+                        handwritten: ['"Birthstone"', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- GSAP -->
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-overlay overflow-hidden">
+
+    <!-- HERO SECTION -->
+    <section class="min-h-screen flex flex-col items-center text-center px-6 pt-20 md:pt-28">
+
+
+        <!-- Title -->
+        <h1 id="title" class="font-script text-4xl md:text-5xl text-black-700 mb-6 opacity-0">
+            Thư Mời Cưới
+        </h1>
+
+        <!-- Decorative line -->
+        <div id="line" class="w-24 h-px bg-rose-400 mb-8 opacity-0">
+        </div>
+
+        <!-- Names -->
+        <div class="flex items-center gap-4 mb-6">
+
+            <span id="groom" class="font-handwritten text-4xl md:text-7xl text-black-800 opacity-0">
+                Vĩnh Thịnh
+            </span>
+
+            <span id="amp" class="font-script text-2xl md:text-6xl text-black-600 opacity-0">
+                &
+            </span>
+
+            <span id="bride" class="font-handwritten text-4xl md:text-7xl text-black-800 opacity-0">
+                Thanh Nhàn
+            </span>
+
+        </div>
+
+        <!-- Date -->
+        <p id="date" class="tracking-widest uppercase text-gray-600 opacity-0">
+            20 · 08 · 2026
+        </p>
+
+        <br />
+        <br />
+        <br />
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <!-- Envelope wrapper: change data-env-width / data-env-height to customize size (numbers are in px or include unit) -->
+        <div class="wrapper" data-env-width="360" data-env-height="260">
+            <div class="lid one"></div>
+            <div class="lid two"></div>
+            <div class="envelope"></div>
+            <div class="bot_cover"></div>
+            <div class="letter">
+                <img class="main-image" src="assets/images/anh_cuoi.jpg" alt="">
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+
+        <br>
+        <br>
+        <br>
+
+        <h1 id="title" class="font-script text-4xl md:text-5xl text-black-700 mb-6 opacity-100">
+            Thư Mời Cưới
+        </h1>
+
+
+
+    </section>
+
+
+    <audio id="bg-music" loop>
+        <source src="assets/audio/nhacnen.mp3" type="audio/mpeg">
+    </audio>
+    <!-- Music Toggle Button -->
+    <button id="music-btn"
+        class="fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg">
+        ♪
+    </button>
+
+    <!-- Back to Top Button -->
+    <button id="top-btn"
+        class="fixed bottom-6 right-5 z-50 w-12 h-12 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg opacity-0 pointer-events-none">
+        ↑
+    </button>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
