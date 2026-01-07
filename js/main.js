@@ -52,29 +52,113 @@ window.onload = () => {
     0
   );
 
+  // Grab music and UI elements early so the scroll trigger can attempt autoplay
   const music = document.getElementById("bg-music");
   const musicBtn = document.getElementById("music-btn");
   const topBtn = document.getElementById("top-btn");
 
   let isPlaying = false;
 
-  // Attempt autoplay on load
-  if (music) {
-    const playPromise = music.play();
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          isPlaying = true;
+  // Register ScrollTrigger and animate details section when it scrolls into view
+  gsap.registerPlugin(ScrollTrigger);
+
+  const detailsTL = gsap.timeline({
+    defaults: { ease: "power3.out" },
+    scrollTrigger: {
+      trigger: "#details",
+      start: "top 80%",
+      once: true,
+      onEnter: () => {
+        // Try to start music when the user scrolls to the details section
+        tryPlayMusic();
+      },
+    },
+  });
+
+  detailsTL.fromTo(
+    "#details-line",
+    { opacity: 0 },
+    { opacity: 1, duration: 0.8 },
+    0
+  );
+
+  detailsTL.fromTo(
+    "#intro",
+    { y: 20, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.8 },
+    0.1
+  );
+
+  detailsTL.fromTo(
+    ".details-groom",
+    { x: -40, opacity: 0 },
+    { x: 0, opacity: 1, duration: 1.1 },
+    0.2
+  );
+
+  detailsTL.fromTo(
+    ".details-amp",
+    { opacity: 0 },
+    { opacity: 1, duration: 0.9 },
+    0.35
+  );
+
+  detailsTL.fromTo(
+    ".details-bride",
+    { x: 40, opacity: 0 },
+    { x: 0, opacity: 1, duration: 1.1 },
+    0.2
+  );
+
+  detailsTL.fromTo(
+    ".details-family",
+    { y: 20, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.9 },
+    0.6
+  );
+
+  /* music elements declared earlier (used by scroll trigger) */
+
+  // Try to play music helper (used by on-load, scroll trigger, and first-scroll)
+  const tryPlayMusic = () => {
+    if (!music || isPlaying) return;
+    const p = music.play();
+    if (p !== undefined) {
+      p.then(() => {
+        isPlaying = true;
+        if (musicBtn) {
           musicBtn.textContent = "❚❚";
           musicBtn.classList.remove("pulse");
-        })
-        .catch(() => {
-          // Autoplay blocked — add a visual cue for user interaction
+        }
+      }).catch(() => {
+        // Autoplay blocked — add a visual cue for user interaction
+        if (musicBtn) {
           musicBtn.textContent = "♪";
           musicBtn.classList.add("pulse");
-        });
+        }
+      });
+    } else {
+      // play() returned undefined in some browsers — assume playing
+      isPlaying = true;
+      if (musicBtn) {
+        musicBtn.textContent = "❚❚";
+        musicBtn.classList.remove("pulse");
+      }
     }
-  }
+  };
+
+  // Attempt autoplay on first user scroll (one-time)
+  window.addEventListener(
+    "scroll",
+    function onFirstScroll() {
+      tryPlayMusic();
+      window.removeEventListener("scroll", onFirstScroll);
+    },
+    { passive: true, once: true }
+  );
+
+  // Attempt autoplay on load
+  tryPlayMusic();
 
   // Music toggle
   musicBtn.addEventListener("click", () => {
