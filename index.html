@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Birthstone&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Dancing+Script:wght@400..700&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,6 +26,7 @@
                         script: ['"Beau Rivage"', 'cursive'],
                         handwritten: ['"Birthstone"', 'cursive'],
                         names: ['"Dancing Script"', 'cursive'],
+                        fami: ['"Playfair Display"', 'serif'],
                     }
                 }
             }
@@ -40,7 +43,7 @@
 <body class="bg-overlay overflow-auto">
 
     <!-- HERO SECTION -->
-    <section class="min-h-screen flex flex-col items-center text-center px-6 pt-20 md:pt-28">
+    <section class="min-h-screen flex flex-col items-center text-center px-1 md:px-4 pt-20 md:pt-30">
 
 
         <!-- Title -->
@@ -56,7 +59,7 @@
         <div class="flex items-center gap-4 mb-6">
 
             <span id="groom" class="font-handwritten text-4xl md:text-7xl text-black-800 opacity-0">
-                Vĩnh Thịnh
+                Vỉnh Thịnh
             </span>
 
             <span id="amp" class="font-script text-2xl md:text-6xl text-black-600 opacity-0">
@@ -71,7 +74,10 @@
 
         <!-- Date -->
         <p id="date" class="tracking-widest uppercase text-gray-600 opacity-0">
-            20 · 08 · 2026
+            12 · 08 · 2026
+        </p>
+        <p id="date" class="tracking-widest  text-gray-600 opacity-0">
+            (Nhằm ngày 30 · 06 · Bính Ngọ)
         </p>
 
         <br />
@@ -95,6 +101,8 @@
             <div class="letter">
                 <img class="main-image" src="assets/images/anh_cuoi.jpg" alt="">
             </div>
+            <!-- Wax seal centered on the envelope flap junction -->
+            <img class="wax-seal" src="assets/images/wax.png" alt="Wax Seal" role="button" tabindex="0">
         </div>
 
         <br>
@@ -105,7 +113,7 @@
         <br>
         <br>
 
-        <section id="details" class="min-h-[20vh] flex flex-col items-center text-center px-6 md:pt-8">
+        <section id="details" class="min-h-[20vh] flex flex-col items-center text-center px-1 md:px-6 md:pt-8">
             <div id="details-line" class="w-24 h-px bg-rose-400 mb-8 opacity-0"></div>
 
             <h1 id="intro" class="font-script text-3xl md:text-3xl text-black-700 mb-6 opacity-0">
@@ -114,7 +122,7 @@
 
             <br>
             <span class="details-groom font-names text-5xl md:text-5xl text-rose-800 opacity-0">
-                Nguyễn Vĩnh Thịnh
+                Nguyễn Vỉnh Thịnh
             </span>
 
             <br>
@@ -132,21 +140,34 @@
             <br>
             <br>
 
-            <div class="flex justify-between w-full md:w-2/3 gap-5 mb-6">
+            <table class="w-full md:w-2/3 mb-6" style="font-family: 'Times New Roman', serif;">
+                <thead>
+                    <tr style="pointer-events: none;">
+                        <th class="text-center text-1xl md:text-1xl text-black-800 pb-4" style="font-weight: normal;">
+                            Nhà trai</th>
+                        <th class="text-center text-1xl md:text-1xl text-black-800 pb-4" style="font-weight: normal;">
+                            Nhà gái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="details-family" style="pointer-events: none; opacity: 0;">
+                        <td class="text-center text-1xl md:text-1xl text-black-800">
+                            <b>Ông Nguyễn Văn Sơn<br>
+                                Bà Trần Thị Huệ</b>
+                        </td>
+                        <td class="text-center text-1xl md:text-1xl text-black-800">
+                            <b>Ông Lê Thanh Hoàng<br>
+                                Bà Võ Thanh Ngọc Phương</b>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
 
-                <div class="details-family text-left font-handwritten text-4xl md:text-4xl text-black-800 opacity-0">
-                    <p>Nhà trai</p>
-                    Ông Nguyễn Văn Sơn<br>
-                    Bà Trần Thị Huệ<br>
-                </div>
+            <span class="details-groom font-script text-left text-7xl md:text-7xl text-grey opacity-0">
+                Ngày chung đôi
+            </span>
 
-                <div class="details-family text-right font-handwritten text-4xl md:text-4xl text-black-800 opacity-0">
-                    <p>Nhà gái</p>
-                    Ông Lê<br>
-                    Bà Võ Thanh Ngọc Phương<br>
-                </div>
-
-            </div>
         </section>
 
         <br>

@@ -102,37 +102,63 @@ html {
   color: #3B4049;
 }
 
-.wrapper:hover .lid.one {
-    transform: rotateX(90deg);
-    transition-delay: 0s;
+.wax-seal {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.2s ease;
+  animation: wax-seal-pulse 2.2s ease-in-out infinite;
 }
 
-/* Open state (used by JS to trigger along with intro) */
+.wax-seal:hover {
+  transform: translateX(-50%) scale(1.08);
+  filter: drop-shadow(0 0 8px rgba(255, 215, 120, 0.7));
+}
+
+.wax-seal:focus-visible {
+  outline: 2px solid #f3d37a;
+  outline-offset: 4px;
+}
+
+.wrapper::after {
+  content: "";
+  position: absolute;
+  top: 145px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #f8e9d2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  z-index: 6;
+  pointer-events: none;
+}
+
+.wrapper.open .wax-seal {
+  animation: none;
+}
+
+.wrapper.open::after {
+  opacity: 0;
+}
+
 .wrapper.open .lid.one {
     transform: rotateX(90deg);
     transition-delay: 0s;
 }
 
-.wrapper:hover .lid.two {
-    transform: rotateX(180deg);
-    transition-duration: 1s;
-    transition-delay: 0.25s;
-}
-
-/* Open state (used by JS to trigger along with intro) */
 .wrapper.open .lid.two {
     transform: rotateX(180deg);
     transition-duration: 1s;
     transition-delay: 0.25s;
 }
 
-.wrapper:hover .letter {
-  transform: translateY(-195px);
-  transition-duration: 2s;
-  transition-delay: 1s;
-}
-
-/* Open state (used by JS to trigger along with intro) */
 .wrapper.open .letter {
   transform: translateY(-195px);
   transition-duration: 2s;
@@ -158,4 +184,19 @@ html {
   0% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
   50% { transform: scale(1.08); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
   100% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
-} 
+}
+
+@keyframes wax-seal-pulse {
+  0% {
+    transform: translateX(-50%) scale(1);
+    filter: drop-shadow(0 0 0 rgba(255, 215, 120, 0));
+  }
+  50% {
+    transform: translateX(-50%) scale(1.06);
+    filter: drop-shadow(0 0 10px rgba(255, 215, 120, 0.65));
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    filter: drop-shadow(0 0 0 rgba(255, 215, 120, 0));
+  }
+}

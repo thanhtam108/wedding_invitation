@@ -11,7 +11,7 @@ window.onload = () => {
     "#title",
     { y: -40, opacity: 0 },
     { y: 0, opacity: 1, duration: 3 },
-    0
+    0,
   );
 
   // Decorative line: fade in
@@ -22,7 +22,7 @@ window.onload = () => {
     "#groom",
     { x: -60, opacity: 0 },
     { x: 0, opacity: 1, duration: 6.5 },
-    0
+    0,
   );
 
   // Ampersand: fade only
@@ -33,7 +33,7 @@ window.onload = () => {
     "#bride",
     { x: 60, opacity: 0 },
     { x: 0, opacity: 1, duration: 6.5 },
-    0
+    0,
   );
 
   // Date: bottom -> top
@@ -41,7 +41,7 @@ window.onload = () => {
     "#date",
     { y: 30, opacity: 0 },
     { y: 0, opacity: 1, duration: 3, delay: 1.5 },
-    0
+    0,
   );
 
   // ENVELOPE IDLE ENTRANCE
@@ -49,7 +49,7 @@ window.onload = () => {
     ".wrapper",
     { y: 30, opacity: 0 },
     { y: 0, opacity: 1, duration: 5 },
-    0
+    0,
   );
 
   // Grab music and UI elements early so the scroll trigger can attempt autoplay
@@ -79,53 +79,72 @@ window.onload = () => {
     "#details-line",
     { opacity: 0 },
     { opacity: 1, duration: 0.8 },
-    0
+    0,
   );
 
   detailsTL.fromTo(
     "#intro",
     { y: 20, opacity: 0 },
     { y: 0, opacity: 1, duration: 0.8 },
-    0.1
+    0.1,
   );
 
   detailsTL.fromTo(
     ".details-groom",
     { x: -40, opacity: 0 },
     { x: 0, opacity: 1, duration: 1.1 },
-    0.2
+    0.2,
   );
 
   detailsTL.fromTo(
     ".details-amp",
     { opacity: 0 },
     { opacity: 1, duration: 0.9 },
-    0.35
+    0.35,
   );
 
   detailsTL.fromTo(
     ".details-bride",
     { x: 40, opacity: 0 },
     { x: 0, opacity: 1, duration: 1.1 },
-    0.2
+    0.2,
   );
 
   detailsTL.fromTo(
     ".details-family",
     { y: 20, opacity: 0 },
     { y: 0, opacity: 1, duration: 0.9 },
-    0.6
+    0.6,
   );
 
   /* music elements declared earlier (used by scroll trigger) */
 
-  // Try to play music helper (used by on-load, scroll trigger, and first-scroll)
+  const firstInteractionEvents = [
+    "pointerdown",
+    "touchstart",
+    "touchend",
+    "click",
+    "mouseup",
+    "keydown",
+    "scroll",
+    "wheel",
+  ];
+
+  const removeFirstInteractionListeners = () => {
+    firstInteractionEvents.forEach((evt) => {
+      window.removeEventListener(evt, onFirstInteraction);
+      document.removeEventListener(evt, onFirstInteraction, true);
+    });
+  };
+
+  // Try to play music helper (used by on-load, scroll trigger, and first interactions)
   const tryPlayMusic = () => {
     if (!music || isPlaying) return;
     const p = music.play();
     if (p !== undefined) {
       p.then(() => {
         isPlaying = true;
+        removeFirstInteractionListeners();
         if (musicBtn) {
           musicBtn.textContent = "❚❚";
           musicBtn.classList.remove("pulse");
@@ -140,6 +159,7 @@ window.onload = () => {
     } else {
       // play() returned undefined in some browsers — assume playing
       isPlaying = true;
+      removeFirstInteractionListeners();
       if (musicBtn) {
         musicBtn.textContent = "❚❚";
         musicBtn.classList.remove("pulse");
@@ -147,15 +167,27 @@ window.onload = () => {
     }
   };
 
-  // Attempt autoplay on first user scroll (one-time)
-  window.addEventListener(
-    "scroll",
-    function onFirstScroll() {
-      tryPlayMusic();
-      window.removeEventListener("scroll", onFirstScroll);
-    },
-    { passive: true, once: true }
-  );
+  const onFirstInteraction = () => {
+    tryPlayMusic();
+  };
+
+  firstInteractionEvents.forEach((evt) => {
+    const opts =
+      evt === "touchstart" || evt === "scroll" || evt === "wheel"
+        ? { passive: true }
+        : undefined;
+
+    const captureOpts =
+      evt === "touchstart" ||
+      evt === "touchend" ||
+      evt === "scroll" ||
+      evt === "wheel"
+        ? { passive: true, capture: true }
+        : { capture: true };
+
+    window.addEventListener(evt, onFirstInteraction, opts);
+    document.addEventListener(evt, onFirstInteraction, captureOpts);
+  });
 
   // Attempt autoplay on load
   tryPlayMusic();
@@ -214,9 +246,19 @@ window.onload = () => {
     setVar(wrapper, "envHeight", "--env-height");
   }
 
-  // Trigger envelope open along with intro animations
-  if (wrapper && typeof intro !== "undefined") {
-    // Open envelope at the start of the intro timeline so opening happens simultaneously with text animations
-    intro.call(() => wrapper.classList.add("open"), null, 0);
+  // Open envelope when user taps the wax seal
+  const waxSeal = document.querySelector(".wax-seal");
+  if (waxSeal && wrapper) {
+    const openEnvelope = () => {
+      wrapper.classList.add("open");
+    };
+
+    waxSeal.addEventListener("click", openEnvelope);
+    waxSeal.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openEnvelope();
+      }
+    });
   }
 };
