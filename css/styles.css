@@ -558,6 +558,78 @@ html {
   box-shadow: 0 10px 20px rgba(83, 50, 50, 0.14);
 }
 
+.photo-gallery-section {
+  width: min(100%, 430px);
+  margin: 28px auto 0;
+}
+
+.photo-gallery-heading {
+  margin: 0 0 14px;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #584545;
+}
+
+.photo-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.photo-slot {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #f0e6e6;
+  border: 1px solid rgba(128, 100, 100, 0.2);
+}
+
+.slot-short {
+  aspect-ratio: 1.1 / 1;
+}
+
+.slot-tall {
+  aspect-ratio: 0.9 / 1.25;
+}
+
+.slot-wide {
+  grid-column: 1 / -1;
+  aspect-ratio: 2.2 / 1;
+}
+
+.photo-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.photo-slot:hover img {
+  transform: scale(1.05);
+}
+
+.slot-placeholder {
+  aspect-ratio: 0.9 / 1.25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  color: #7e6666;
+  background: repeating-linear-gradient(
+    -45deg,
+    #f3e9e9,
+    #f3e9e9 8px,
+    #f8f0f0 8px,
+    #f8f0f0 16px
+  );
+}
+
 @media (max-width: 768px) {
   .save-date-envelope-zone {
     margin-top: 72px;
@@ -636,6 +708,14 @@ html {
 
   .venue-map-link {
     width: 100%;
+  }
+
+  .photo-gallery-section {
+    width: min(100%, 350px);
+  }
+
+  .photo-gallery-grid {
+    gap: 6px;
   }
 }
 
