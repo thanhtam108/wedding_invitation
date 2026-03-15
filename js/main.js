@@ -75,49 +75,33 @@ window.onload = () => {
     },
   });
 
-  detailsTL.fromTo(
-    "#details-line",
-    { opacity: 0 },
-    { opacity: 1, duration: 0.8 },
-    0,
+  // Keep details section animation slide-only (no fade).
+  gsap.set(
+    [
+      "#details-line",
+      "#intro",
+      ".details-groom",
+      ".details-amp",
+      ".details-bride",
+      ".details-family",
+      ".save-the-date",
+    ],
+    { opacity: 1 },
   );
 
-  detailsTL.fromTo(
-    "#intro",
-    { y: 20, opacity: 0 },
-    { y: 0, opacity: 1, duration: 0.8 },
-    0.1,
-  );
+  detailsTL.fromTo("#details-line", { x: -30 }, { x: 0, duration: 5.0 }, 0);
 
-  detailsTL.fromTo(
-    ".details-groom",
-    { x: -40, opacity: 0 },
-    { x: 0, opacity: 1, duration: 1.1 },
-    0.2,
-  );
+  detailsTL.fromTo("#intro", { y: 50 }, { y: 0, duration: 5.0 }, 0.1);
 
-  detailsTL.fromTo(
-    ".details-amp",
-    { opacity: 0 },
-    { opacity: 1, duration: 0.9 },
-    0.35,
-  );
+  detailsTL.fromTo(".details-groom", { x: -100 }, { x: 0, duration: 5.0 }, 0.2);
 
-  detailsTL.fromTo(
-    ".details-bride",
-    { x: 40, opacity: 0 },
-    { x: 0, opacity: 1, duration: 1.1 },
-    0.2,
-  );
+  detailsTL.fromTo(".details-amp", { y: 25 }, { y: 0, duration: 5.0 }, 0.35);
 
-  detailsTL.fromTo(
-    ".details-family",
-    { y: 20, opacity: 0 },
-    { y: 0, opacity: 1, duration: 0.9 },
-    0.6,
-  );
+  detailsTL.fromTo(".details-bride", { x: 100 }, { x: 0, duration: 5.0 }, 0.2);
 
-  /* music elements declared earlier (used by scroll trigger) */
+  detailsTL.fromTo(".details-family", { y: 50 }, { y: 0, duration: 5.0 }, 0.6);
+
+  detailsTL.fromTo(".save-the-date", { x: -100 }, { x: 0, duration: 5.0 }, 0.2);
 
   const firstInteractionEvents = [
     "pointerdown",
