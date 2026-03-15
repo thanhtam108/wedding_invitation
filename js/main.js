@@ -85,6 +85,7 @@ window.onload = () => {
       ".details-bride",
       ".details-family",
       ".save-the-date",
+      ".diagonal-date",
     ],
     { opacity: 1 },
   );
@@ -102,6 +103,8 @@ window.onload = () => {
   detailsTL.fromTo(".details-family", { y: 50 }, { y: 0, duration: 5.0 }, 0.6);
 
   detailsTL.fromTo(".save-the-date", { x: -100 }, { x: 0, duration: 5.0 }, 0.2);
+
+  detailsTL.fromTo(".diagonal-date", { x: 50 }, { x: 0, duration: 5.0 }, 0.2);
 
   const firstInteractionEvents = [
     "pointerdown",
@@ -217,18 +220,21 @@ window.onload = () => {
   });
 
   // Envelope size customization via data attributes (data-env-width / data-env-height)
+  const wrappers = document.querySelectorAll(".wrapper");
+  const setVar = (el, dataKey, cssVar) => {
+    const v = el.dataset[dataKey];
+    if (!v) return;
+    // allow plain integers or decimals (treated as px) or full CSS values ("22rem", "50vw", "320px")
+    const cssVal = /^(\d+(\.\d+)?|\d+)$/.test(v) ? `${v}px` : v;
+    el.style.setProperty(cssVar, cssVal);
+  };
+
+  wrappers.forEach((item) => {
+    setVar(item, "envWidth", "--env-width");
+    setVar(item, "envHeight", "--env-height");
+  });
+
   const wrapper = document.querySelector(".wrapper");
-  if (wrapper) {
-    const setVar = (el, dataKey, cssVar) => {
-      const v = el.dataset[dataKey];
-      if (!v) return;
-      // allow plain integers or decimals (treated as px) or full CSS values ("22rem", "50vw", "320px")
-      const cssVal = /^(\d+(\.\d+)?|\d+)$/.test(v) ? `${v}px` : v;
-      el.style.setProperty(cssVar, cssVal);
-    };
-    setVar(wrapper, "envWidth", "--env-width");
-    setVar(wrapper, "envHeight", "--env-height");
-  }
 
   // Open envelope when user taps the wax seal
   const waxSeal = document.querySelector(".wax-seal");
@@ -244,5 +250,95 @@ window.onload = () => {
         openEnvelope();
       }
     });
+  }
+
+  const calendarCard = document.querySelector(".calendar-card");
+  if (calendarCard) {
+    const year = Number.parseInt(calendarCard.dataset.calendarYear || "", 10);
+    const month = Number.parseInt(calendarCard.dataset.calendarMonth || "", 10);
+    const highlightDay = Number.parseInt(
+      calendarCard.dataset.calendarHighlight || "",
+      10,
+    );
+
+    if (
+      Number.isInteger(year) &&
+      Number.isInteger(month) &&
+      month >= 1 &&
+      month <= 12
+    ) {
+      const titleEl = calendarCard.querySelector(".calendar-title");
+      const weekdaysEl = calendarCard.querySelector(".calendar-weekdays");
+      const gridEl = calendarCard.querySelector(".calendar-grid");
+      const weekdayLabels = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+      const firstDate = new Date(year, month - 1, 1);
+      const totalDays = new Date(year, month, 0).getDate();
+      const firstDayIndex = (firstDate.getDay() + 6) % 7;
+
+      if (titleEl) {
+        titleEl.textContent = `Thang ${String(month).padStart(2, "0")} - ${year}`;
+      }
+
+      if (weekdaysEl) {
+        weekdaysEl.innerHTML = weekdayLabels
+          .map((label) => `<div class="calendar-weekday">${label}</div>`)
+          .join("");
+      }
+
+      if (gridEl) {
+        const cells = [];
+
+        for (let index = 0; index < firstDayIndex; index += 1) {
+          cells.push('<div class="calendar-day-empty"></div>');
+        }
+
+        for (let day = 1; day <= totalDays; day += 1) {
+          const isHighlight = day === highlightDay;
+          cells.push(
+            `<div class="calendar-day${isHighlight ? " is-highlight" : ""}"><span>${day}</span></div>`,
+          );
+        }
+
+        gridEl.innerHTML = cells.join("");
+      }
+    }
+  }
+
+  const venueSection = document.querySelector(".venue-section");
+  if (venueSection) {
+    const headingEl = venueSection.querySelector(".venue-heading");
+    const nameEl = venueSection.querySelector(".venue-name");
+    const addressEl = venueSection.querySelector(".venue-address");
+    const mapEl = venueSection.querySelector(".venue-map");
+    const mapLinkEl = venueSection.querySelector(".venue-map-link");
+    const {
+      venueHeading,
+      venueName,
+      venueAddress,
+      mapEmbedUrl,
+      mapLinkUrl,
+      mapLinkLabel,
+    } = venueSection.dataset;
+
+    if (headingEl && venueHeading) {
+      headingEl.textContent = venueHeading;
+    }
+
+    if (nameEl && venueName) {
+      nameEl.textContent = venueName;
+    }
+
+    if (addressEl && venueAddress) {
+      addressEl.textContent = venueAddress;
+    }
+
+    if (mapEl && mapEmbedUrl) {
+      mapEl.src = mapEmbedUrl;
+    }
+
+    if (mapLinkEl && mapLinkUrl) {
+      mapLinkEl.href = mapLinkUrl;
+      mapLinkEl.textContent = mapLinkLabel || "Xem Chỉ Đường";
+    }
   }
 };
