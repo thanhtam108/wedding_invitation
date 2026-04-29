@@ -105,6 +105,54 @@ window.onload = () => {
   detailsTL.fromTo(".save-the-date", { x: -100 }, { x: 0, duration: 5.0 }, 0.2);
 
   detailsTL.fromTo(".diagonal-date", { x: 50 }, { x: 0, duration: 5.0 }, 0.2);
+  // Pop-up animation for the Bride's photo (Left)
+  gsap.fromTo(
+    ".save-photo-left",
+    {
+      y: 150, // Start hidden deep inside the envelope
+      x: 30, // Start slightly centered
+      rotation: 0, // Start straight
+      scale: 0.8, // Start slightly smaller
+    },
+    {
+      y: -15, // Your original CSS position
+      x: 0,
+      rotation: -8, // Your original CSS rotation
+      scale: 1,
+      duration: 1.2,
+      ease: "back.out(1.2)", // Gives a nice, gentle spring effect
+      scrollTrigger: {
+        trigger: ".save-date-envelope-zone",
+        start: "top 80%", // Triggers when the top of the envelope is 80% down the screen
+        toggleActions: "play none none reverse", // Plays on scroll down, reverses if you scroll back up
+      },
+    },
+  );
+
+  // Pop-up animation for the Groom's photo (Right)
+  gsap.fromTo(
+    ".save-photo-right",
+    {
+      y: 150,
+      x: -30,
+      rotation: 0,
+      scale: 0.8,
+    },
+    {
+      y: 6, // Your original CSS position
+      x: 0,
+      rotation: 8, // Your original CSS rotation
+      scale: 1,
+      duration: 1.2,
+      delay: 0.15, // Slight delay so the groom's photo follows the bride's
+      ease: "back.out(1.2)",
+      scrollTrigger: {
+        trigger: ".save-date-envelope-zone",
+        start: "top 80%",
+        toggleActions: "play none none reverse",
+      },
+    },
+  );
 
   const firstInteractionEvents = [
     "pointerdown",
