@@ -284,19 +284,30 @@ window.onload = () => {
 
   const wrapper = document.querySelector(".wrapper");
 
-  // Open envelope when user taps the wax seal
+  // Open envelope when user taps the wax seal OR scrolls to it
   const waxSeal = document.querySelector(".wax-seal");
   if (waxSeal && wrapper) {
     const openEnvelope = () => {
       wrapper.classList.add("open");
     };
 
+    // Keep the manual click/keyboard controls for accessibility
     waxSeal.addEventListener("click", openEnvelope);
     waxSeal.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         openEnvelope();
       }
+    });
+
+    // NEW: Add ScrollTrigger to automate the opening
+    ScrollTrigger.create({
+      trigger: wrapper,
+      start: "top 60%", // Triggers when the top of the envelope reaches 60% down the viewport
+      once: true, // Ensures it only opens once and doesn't replay if they scroll up and down
+      onEnter: () => {
+        openEnvelope();
+      },
     });
   }
 

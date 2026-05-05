@@ -69,6 +69,7 @@ html {
   border-bottom: 100px solid #f29494;
   border-left: 150px solid #d13434;
   z-index: 3;
+  filter: drop-shadow(0px 16px 16px 0px rgba(0, 0, 0, 0.25));
 }
 
 .bot_cover {
@@ -84,15 +85,26 @@ html {
   z-index: 3;
 }
 
+.wrapper:not(.save-date-envelope) .bot_cover {
+  width: 120%;
+  height: 800px; /* Massive curtain to swallow any length of photo */
+  top: 100%; /* Hangs exactly flush from the bottom edge of the envelope */
+  left: -10%;
+  background-color: #FCF2F2; /* Matches your background overlay perfectly */
+  border: none; /* Removes the triangle CSS shapes */
+  z-index: 3; /* Keeps it in front of the sliding letter */
+}
+
 .letter {
   position: absolute;
   top: 0;
-  width: 80%;
+  width: 90%;
   height: 80%;
   background-color: white;
   border-radius: 15px;
   z-index: 2;
   transition: 0.5s;
+  
 }
 
 .letter p {
@@ -303,9 +315,9 @@ html {
 }
 
 .save-date-envelope .save-photo {
-  width: 44%;
+  width: 100%;
   background: #fff;
-  border: 8px solid #fff;
+  border: 2px solid #fff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.16);
   overflow: hidden;
 }
